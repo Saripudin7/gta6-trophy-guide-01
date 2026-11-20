@@ -1,5 +1,1 @@
-[
-  { "file": "1-checklist.jpg", "path": "/", "viewport": { "width": 1280, "height": 800 } },
-  { "file": "2-silver.jpg", "path": "/", "grade": "silver", "viewport": { "width": 1280, "height": 800 } },
-  { "file": "3-bronze.jpg", "path": "/", "grade": "bronze", "scroll": 1400, "viewport": { "width": 1280, "height": 800 } }
-]
+[{"file":"1-tracker-guide.jpg","path":"/","view":"tracker with silver guide open","viewport":{"height":800,"width":1280}},{"file":"2-roadmap.jpg","path":"/","view":"roadmap to platinum","viewport":{"height":800,"width":1280}},{"file":"3-missables.jpg","path":"/","view":"missable trophies flagged","viewport":{"height":800,"width":1280}},{"file":"4-collectibles-spoiler.jpg","path":"/","view":"collectibles filter with spoiler shield on","viewport":{"height":800,"width":1280}}]

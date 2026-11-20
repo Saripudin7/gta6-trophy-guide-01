@@ -3,23 +3,125 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GTA VI trophy checklist</title>
+<title>Leonida Platinum — GTA VI Trophy Guide &amp; Tracker</title>
+<meta name="description" content="Offline guide and tracker for all 55 PlayStation 5 trophies of Grand Theft Auto VI: roadmap to the platinum, missable flags, saved progress, filters and a spoiler shield.">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-  <h1>GTA VI trophy checklist</h1>
-  <p id="progress">0 of 55 earned</p>
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark" aria-hidden="true">LP</div>
+    <div>
+      <h1>Leonida Platinum</h1>
+      <p class="tagline">GTA VI trophy guide &amp; tracker — works fully offline</p>
+    </div>
+  </div>
+  <div class="scoreboard" aria-label="Progress summary">
+    <div class="score"><span id="earned-count">0</span><small>of 55 earned</small></div>
+    <div class="medals" id="medal-counts"></div>
+    <div class="progress-bar"><div id="progress-fill"></div></div>
+    <p class="next-up" id="next-up"></p>
+  </div>
 </header>
-<div class="controls">
-  <label>Grade <select id="grade"><option value="all">All</option><option value="platinum">Platinum</option><option value="gold">Gold</option><option value="silver">Silver</option><option value="bronze">Bronze</option></select></label>
-  <button id="export" type="button">Export progress</button>
-  <label class="import">Import progress <input id="import" type="file" accept="application/json"></label>
-</div>
-<table>
-  <thead><tr><th>Earned</th><th>Trophy</th><th>Grade</th><th>How to get it</th></tr></thead>
-  <tbody id="rows"></tbody>
-</table>
+
+<nav class="tabs" aria-label="Views">
+  <button type="button" data-view="tracker" class="tab active">Tracker</button>
+  <button type="button" data-view="roadmap" class="tab">Roadmap to Platinum</button>
+  <button type="button" data-view="missables" class="tab">Missables</button>
+  <button type="button" data-view="save" class="tab">Save / Export</button>
+</nav>
+
+<main>
+  <section id="view-tracker" class="view active">
+    <div class="toolbar">
+      <label class="search">Search
+        <input id="search" type="search" placeholder="Trophy, mission, activity…" autocomplete="off">
+      </label>
+      <div class="filter-group" role="group" aria-label="Filter by kind">
+        <button type="button" class="chip active" data-kind="all">All 55</button>
+        <button type="button" class="chip" data-kind="story">Story</button>
+        <button type="button" class="chip" data-kind="missable">Missable</button>
+        <button type="button" class="chip" data-kind="collectibles">Collectibles</button>
+        <button type="button" class="chip" data-kind="activities">Activities</button>
+        <button type="button" class="chip" data-kind="cleanup">Cleanup</button>
+      </div>
+      <label>Grade
+        <select id="grade">
+          <option value="all">All grades</option>
+          <option value="platinum">Platinum</option>
+          <option value="gold">Gold</option>
+          <option value="silver">Silver</option>
+          <option value="bronze">Bronze</option>
+        </select>
+      </label>
+      <label class="toggle">
+        <input id="spoiler" type="checkbox" checked>
+        <span>Spoiler shield: hide story trophies until earned</span>
+      </label>
+      <label class="toggle">
+        <input id="hide-done" type="checkbox">
+        <span>Hide earned</span>
+      </label>
+    </div>
+    <p class="legend">Official list: 1 platinum · 2 gold · 6 silver · 46 bronze · 28 hidden on PlayStation until earned.
+      Names, descriptions and grades are shown as PlayStation publishes them (cross-checked on Exophase and PSNProfiles).
+      Guides are written for this app and cite their sources beside each trophy.</p>
+    <div class="layout">
+      <div class="list-pane">
+        <p class="list-meta" id="list-meta"></p>
+        <div id="trophy-list"></div>
+      </div>
+      <aside class="detail-pane" id="detail-pane" aria-live="polite">
+        <p class="detail-hint">Pick a trophy on the left to open its guide: what to do, when it can be missed, and the sources behind each fact.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section id="view-roadmap" class="view">
+    <h2>Roadmap to the platinum</h2>
+    <p class="section-intro">Built from the official descriptions alone: which chapters and missions gate what, which
+      collectibles and counts the list names, and the order that wastes the least backtracking. Every stage links back
+      to the tracker, so you can tick trophies off as you go.</p>
+    <div id="roadmap-stages"></div>
+  </section>
+
+  <section id="view-missables" class="view">
+    <h2>Missable trophies — read before you commit</h2>
+    <p class="section-intro">These are the trophies whose official descriptions tie them to a choice, a partner, or a
+      stranger strand that can close. Keep a rotating save before story branches, finish stranger strands when they
+      appear, and do partner trophies while your partner is still with you. Nothing here needs a second playthrough
+      if you watch these flags.</p>
+    <div id="missable-list"></div>
+  </section>
+
+  <section id="view-save" class="view">
+    <h2>Your progress lives in this browser</h2>
+    <p class="section-intro">Ticks, counters and notes are saved in localStorage on this device only — the app makes
+      no network requests. Export a backup before switching browsers, and import it on the other side.</p>
+    <div class="save-actions">
+      <button type="button" id="export">Export progress (.json)</button>
+      <label class="import-btn">Import progress
+        <input id="import" type="file" accept="application/json">
+      </label>
+      <button type="button" id="reset" class="danger">Reset everything</button>
+    </div>
+    <p id="save-status" class="save-status"></p>
+    <div class="about-box">
+      <h3>How to read this guide</h3>
+      <ul>
+        <li><strong>Official text</strong> (name, description, grade) is PlayStation's, as listed by Exophase and PSNProfiles.</li>
+        <li><strong>Guides</strong> are this app's own words. Where a fact comes from a public guide or wiki, that source is named beside the trophy; follow the link only if you choose to — the app itself fetches nothing.</li>
+        <li><strong>Counters</strong> mirror the counts PlayStation tracks (e.g. 42 Shooting Range challenges, 250 stunts) so the tracker and your PS5 agree.</li>
+        <li><strong>No Rockstar art:</strong> the look is original CSS; no logos, box art or game screenshots are used.</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>Leonida Platinum — an unofficial fan-made offline guide. Trophy names and descriptions © their publisher, shown
+     for identification. Sources are cited per trophy; this app copies no guide text.</p>
+</footer>
 <script type="module" src="app.js"></script>
 </body>
 </html>
